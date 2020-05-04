@@ -1,4 +1,4 @@
-import { Point } from "../models/types";
+import { Point } from "../models/";
 
 export function updateAxisLabels(
   e: React.MouseEvent<HTMLCanvasElement, MouseEvent>

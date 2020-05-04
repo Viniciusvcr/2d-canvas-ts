@@ -1,4 +1,4 @@
-import { Point, Shape } from "./types";
+import { Point, Shape } from "./";
 
 export class Triangle implements Shape {
   points: Point[];

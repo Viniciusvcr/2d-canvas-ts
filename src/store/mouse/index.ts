@@ -1,4 +1,4 @@
-import { Point } from "../../models/types";
+import { Point } from "../../models/";
 import { Action } from "redux";
 import { ActionEnum } from "../index";
 

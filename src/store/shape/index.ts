@@ -1,4 +1,4 @@
-import { Shape, Point } from "../../models/types";
+import { Shape, Point } from "../../models/";
 import { Line } from "../../models/Line";
 import { Action } from "redux";
 import { ActionEnum } from "../index";
