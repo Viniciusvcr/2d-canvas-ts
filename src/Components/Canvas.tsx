@@ -1,25 +1,36 @@
-import React from "react";
+import React, { useReducer, useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { ObjectList } from ".";
-import { updateAxisLabels } from "../controllers/canvas.controller";
-import { useSelector, useDispatch } from "react-redux";
-import { MouseStore, DispatchMouseAction } from "../store/mouse";
-import { RootReducer, ActionEnum } from "../store/index";
-
-function getAxis(
-  e: React.MouseEvent<HTMLCanvasElement, MouseEvent>,
-  state: MouseStore
-): DispatchMouseAction {
-  return {
-    type: ActionEnum.UPDATE_AXIS,
-    payload: { mousePoint: updateAxisLabels(e) },
-  };
-}
+import { getMousePosition } from "../controllers/canvas.controller";
+import { Mouse, MouseAction, INITIAL_MOUSE_STATE } from "../store/mouse";
 
 export default function Canvas() {
-  const store = useSelector((state: RootReducer) => state.mouse);
-  const dispatch = useDispatch();
-  const { position } = store;
+  const [canvasCtx, setcanvasCtx] = useState<CanvasRenderingContext2D | null>(
+    null
+  );
+  const [{ position }, mouseDispatcher] = useReducer(
+    (state: Mouse, action: MouseAction) => {
+      switch (action.type) {
+        case "UPDATE_AXIS":
+          return {
+            ...state,
+            position: action.mousePoint,
+          };
+
+        default:
+          return state;
+      }
+    },
+    INITIAL_MOUSE_STATE
+  );
+
+  useEffect(() => {
+    const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+    canvas.width = 960;
+    canvas.height = 720;
+
+    setcanvasCtx(canvas.getContext("2d"));
+  }, []);
 
   return (
     <div className="container">
@@ -74,14 +85,15 @@ export default function Canvas() {
                 <div style={{ paddingTop: "8px" }}>
                   <canvas
                     id="canvas"
-                    width={1000}
-                    height={744}
                     style={{
                       border: "1px solid black",
                       boxShadow: "0px 2px 10px -5px rgba(0,0,0,0.75)",
                     }}
                     onMouseMove={(e) => {
-                      dispatch(getAxis(e, store));
+                      mouseDispatcher({
+                        mousePoint: getMousePosition(e),
+                        type: "UPDATE_AXIS",
+                      });
                     }}
                   ></canvas>
                   <div>
@@ -90,14 +102,14 @@ export default function Canvas() {
                       id="xAxis"
                       style={{ paddingLeft: "8px" }}
                     >
-                      Axis X: {position?.x}
+                      Axis X: {position.x}
                     </span>
                     <span
                       className="badge badge-dark m-1"
                       id="yAxis"
                       style={{ paddingLeft: "8px" }}
                     >
-                      Axis Y: {position?.y}
+                      Axis Y: {position.y}
                     </span>
                   </div>
                 </div>

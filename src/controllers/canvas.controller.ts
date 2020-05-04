@@ -1,6 +1,6 @@
 import { Point } from "../models/";
 
-export function updateAxisLabels(
+export function getMousePosition(
   e: React.MouseEvent<HTMLCanvasElement, MouseEvent>
 ): Point {
   const rect = document.getElementById("canvas")?.getBoundingClientRect();
