@@ -1,25 +1,30 @@
 import { Shape, Point } from "../../models/";
 import { Line } from "../../models/Line";
-import { Action } from "redux";
-import { ActionEnum } from "../index";
+
+export enum ShapeActionEnum {
+  CREATE_SHAPE,
+  UPDATE_SHAPE,
+  DELETE_SHAPE,
+  SELECT_SHAPE,
+  SET_CANVASCTX,
+}
 
 export interface ShapeStore {
   onCanvas: Shape[];
   selected: Shape[];
   readonly axis: Shape[];
   ID: number;
+  canvasCtx?: CanvasRenderingContext2D;
 }
 
 export interface ShapeAction {
-  shape: Shape;
-  points: Point[];
+  type: ShapeActionEnum;
+  shape?: Shape;
+  points?: Point[];
+  canvasCtx?: CanvasRenderingContext2D;
 }
 
-export interface DispatchShapeAction extends Action<ActionEnum> {
-  payload: ShapeAction;
-}
-
-const INITIAL_SHAPE_STATE: ShapeStore = {
+export const INITIAL_SHAPE_STATE: ShapeStore = {
   onCanvas: [],
   selected: [],
   axis: [
@@ -36,20 +41,3 @@ const INITIAL_SHAPE_STATE: ShapeStore = {
   ],
   ID: 0,
 };
-
-export function shapesReducer(
-  state: ShapeStore = INITIAL_SHAPE_STATE,
-  action: DispatchShapeAction
-): ShapeStore {
-  switch (action.type) {
-    case ActionEnum.CREATE_SHAPE:
-      return {
-        ...state,
-        onCanvas: [...state.onCanvas, action.payload.shape],
-        ID: ++state.ID,
-      };
-
-    default:
-      return state;
-  }
-}
