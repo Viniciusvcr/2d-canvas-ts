@@ -6,7 +6,7 @@ export function updateAxisLabels(
   const rect = document.getElementById("canvas")?.getBoundingClientRect();
 
   return {
-    x: e.clientX - (rect?.left || 0),
-    y: e.clientY - (rect?.top || 0),
+    x: Math.round(e.clientX - (rect?.left || 0)),
+    y: Math.round(e.clientY - (rect?.top || 0)),
   };
 }
