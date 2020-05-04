@@ -3,8 +3,8 @@ import { Button } from "react-bootstrap";
 import { ObjectList } from ".";
 import { updateAxisLabels } from "../controllers/canvas.controller";
 import { useSelector, useDispatch } from "react-redux";
-import { MouseStore, ActionEnum, DispatchMouseAction } from "../store/types";
-import { RootReducer } from "../store/index";
+import { MouseStore, DispatchMouseAction } from "../store/mouse";
+import { RootReducer, ActionEnum } from "../store/index";
 
 function getAxis(
   e: React.MouseEvent<HTMLCanvasElement, MouseEvent>,
