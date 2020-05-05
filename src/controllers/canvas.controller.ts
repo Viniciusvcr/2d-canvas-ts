@@ -13,7 +13,7 @@ export function getMousePosition(
 }
 
 export function renderObjects(
-  { onCanvas, selected, axis }: ShapeStore,
+  { onCanvas, axis }: ShapeStore,
   canvas: HTMLCanvasElement,
   width: number = 960,
   height: number = 720
@@ -23,8 +23,12 @@ export function renderObjects(
   const AXIS_COLOR = "#000000";
 
   const canvasCtx = canvas.getContext("2d")!;
-  const onCanvasValues = Object.values(onCanvas);
-  const selectedObj = Object.values(selected);
+  const onCanvasValues = onCanvas.filter((obj) => {
+    return !obj.selected;
+  });
+  const selectedObj = onCanvasValues.filter((obj) => {
+    return obj.selected;
+  });
 
   canvasCtx.clearRect(0, 0, width, height);
 

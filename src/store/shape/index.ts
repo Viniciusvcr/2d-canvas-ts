@@ -6,17 +6,16 @@ export enum ShapeActionEnum {
   UPDATE_SHAPE,
   DELETE_SHAPE,
   SELECT_SHAPE,
-  SET_CANVASCTX,
 }
 
-interface onCanvasInterface {
+export interface onCanvasInterface {
   id: number;
   shape: Shape;
+  selected: boolean;
 }
 
 export interface ShapeStore {
   onCanvas: onCanvasInterface[];
-  selected: onCanvasInterface[];
   readonly axis: Shape[];
   ID: number;
 }
@@ -29,7 +28,6 @@ export interface ShapeAction {
 
 export const INITIAL_SHAPE_STATE: ShapeStore = {
   onCanvas: [],
-  selected: [],
   axis: [
     new Line({ x: 10, y: 10 }, { x: 10, y: 280 }), // Eixo Y
     new Line({ x: 10, y: 10 }, { x: 280, y: 10 }), // Eixo X
