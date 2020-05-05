@@ -8,10 +8,18 @@ export class Triangle implements Shape {
     this.points = [p1, p2, p3];
   }
 
-  draw(): void {
-    throw new Error("Method not implemented.");
+  draw(ctx: CanvasRenderingContext2D): void {
+    const [p1, p2, p3] = this.points;
+
+    ctx.beginPath();
+    ctx.moveTo(p1.x, p1.y);
+    ctx.lineTo(p2.x, p2.y);
+    ctx.lineTo(p3.x, p3.y);
+    ctx.closePath();
+    ctx.stroke();
   }
-  update(): void {
-    throw new Error("Method not implemented.");
+
+  update(points: Point[]): void {
+    this.points = points;
   }
 }

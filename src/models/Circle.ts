@@ -29,10 +29,19 @@ export class Circle implements Shape {
     };
   }
 
-  draw(): void {
-    throw new Error("Method not implemented.");
+  draw(ctx: CanvasRenderingContext2D): void {
+    const p1 = this.points[0];
+
+    ctx.beginPath();
+    ctx.arc(p1.x, p1.y, this.radius, 0, Math.PI * 2, false);
+    ctx.stroke();
   }
-  update(): void {
-    throw new Error("Method not implemented.");
+
+  update(points: Point[]): void {
+    const [p1, p2] = points;
+    const newPoints = this.calculatePoints(p1, p2);
+
+    this.points = newPoints.points;
+    this.radius = newPoints.radius;
   }
 }

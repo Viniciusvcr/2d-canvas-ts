@@ -14,7 +14,8 @@ export class Line implements Shape {
     ctx.lineTo(this.points[1].x, this.points[1].y);
     ctx.stroke();
   }
-  update(): void {
-    throw new Error("Method not implemented.");
+
+  update(points: Point[]): void {
+    this.points = points;
   }
 }
