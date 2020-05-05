@@ -8,8 +8,11 @@ export class Line implements Shape {
     this.points = [p1, p2];
   }
 
-  draw(): void {
-    throw new Error("Method not implemented.");
+  draw(ctx: CanvasRenderingContext2D): void {
+    ctx.beginPath();
+    ctx.moveTo(this.points[0].x, this.points[0].y);
+    ctx.lineTo(this.points[1].x, this.points[1].y);
+    ctx.stroke();
   }
   update(): void {
     throw new Error("Method not implemented.");

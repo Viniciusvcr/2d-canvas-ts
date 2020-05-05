@@ -12,6 +12,6 @@ export interface Shape {
   points: Point[];
   readonly type: string;
 
-  draw(): void;
+  draw(ctx: CanvasRenderingContext2D): void;
   update(): void;
 }

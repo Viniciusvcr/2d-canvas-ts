@@ -1,7 +1,10 @@
-import React, { useReducer, useEffect, useState } from "react";
+import React, { useReducer, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { ObjectList } from ".";
-import { getMousePosition } from "../controllers/canvas.controller";
+import {
+  getMousePosition,
+  renderObjects,
+} from "../controllers/canvas.controller";
 import { Mouse, MouseAction, INITIAL_MOUSE_STATE } from "../store/mouse";
 import {
   ShapeStore,
@@ -11,10 +14,6 @@ import {
 } from "../store/shape";
 
 export default function Canvas() {
-  const [canvasCtx, setcanvasCtx] = useState<
-    CanvasRenderingContext2D | undefined
-  >();
-
   const [{ position }, mouseDispatcher] = useReducer(
     (state: Mouse, action: MouseAction) => {
       switch (action.type) {
@@ -31,15 +30,9 @@ export default function Canvas() {
     INITIAL_MOUSE_STATE
   );
 
-  const [, shapeDispatcher] = useReducer(
+  const [shapeStore, shapeDispatcher] = useReducer(
     (state: ShapeStore, action: ShapeAction) => {
       switch (action.type) {
-        case ShapeActionEnum.SET_CANVASCTX:
-          return {
-            ...state,
-            canvasCtx,
-          };
-
         default:
           return state;
       }
@@ -48,17 +41,12 @@ export default function Canvas() {
   );
 
   useEffect(() => {
-    const canvas = document.getElementById("canvas") as HTMLCanvasElement;
-    const canvasCtx = canvas.getContext("2d")!;
-    canvas.width = 960;
-    canvas.height = 720;
+    const canvasRef = document.getElementById("canvas") as HTMLCanvasElement;
+    canvasRef.width = 960;
+    canvasRef.height = 720;
 
-    setcanvasCtx(canvasCtx);
-  }, []);
-
-  useEffect(() => {
-    shapeDispatcher({ type: ShapeActionEnum.SET_CANVASCTX, canvasCtx });
-  }, [canvasCtx]);
+    renderObjects(shapeStore, canvasRef);
+  }, [shapeStore]);
 
   return (
     <div className="container">
