@@ -8,8 +8,7 @@ interface Props {
 
 const Item: React.FC<Props> = function (props: Props) {
   const { item, storeDispatcher } = props;
-  const style =
-    "list-group-item d-flex justify-content-between align-items-center'";
+  const style = "list-group-item d-flex'";
 
   return (
     <li className={item.selected ? `${style} active` : `${style}`}>
