@@ -52,6 +52,6 @@ export function renderObjects(
 
   canvasCtx.fillStyle = POINT_COLOR;
   for (const point of bufferPoints) {
-    canvasCtx.fillRect(point.x, point.y, 5, 5);
+    canvasCtx.fillRect(point.x, point.y, 3, 3);
   }
 }
