@@ -34,15 +34,6 @@ const Canvas: React.FC<CanvasProps> = function (props: CanvasProps) {
     >
       <div style={{ textAlign: "center" }}>
         <div>
-          <span
-            className="badge badge-light"
-            style={{ fontSize: "14px" }}
-            id="currentTask"
-          >
-            Select a tool
-          </span>
-        </div>
-        <div style={{ paddingTop: "8px" }}>
           <canvas
             id="canvas"
             style={{

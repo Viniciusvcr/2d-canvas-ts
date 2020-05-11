@@ -14,7 +14,7 @@ const ItemList: React.FC<Props> = function (props: Props) {
     <div
       style={{
         flex: 1,
-        paddingTop: "70px",
+        paddingTop: "45px",
         maxWidth: "15%",
         margin: "10px",
       }}
