@@ -7,7 +7,7 @@ interface Props {
 }
 
 const Item: React.FC<Props> = function (props: Props) {
-  const { item, storeDispatcher } = props;
+  const { item } = props;
   const style = "list-group-item d-flex'";
 
   return (

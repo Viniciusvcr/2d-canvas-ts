@@ -1,5 +1,5 @@
-import { Point } from "../models/";
-import { ShapeStore } from "../store/shape";
+import { Point, Shape } from "../models/";
+import { onCanvasInterface } from "../store/shape";
 
 export function getMousePosition(
   e: React.MouseEvent<HTMLCanvasElement, MouseEvent>
@@ -13,7 +13,9 @@ export function getMousePosition(
 }
 
 export function renderObjects(
-  { onCanvas, axis }: ShapeStore,
+  onCanvas: onCanvasInterface[],
+  axis: Shape[],
+  bufferPoints: Point[],
   canvas: HTMLCanvasElement,
   width: number = 960,
   height: number = 720
@@ -21,6 +23,7 @@ export function renderObjects(
   const SHAPE_COLOR = "black";
   const SELECTED_COLOR = "#D50000";
   const AXIS_COLOR = "#000000";
+  const POINT_COLOR = "red";
 
   const canvasCtx = canvas.getContext("2d")!;
   const onCanvasValues = onCanvas.filter((obj) => {
@@ -45,5 +48,10 @@ export function renderObjects(
   canvasCtx.strokeStyle = SELECTED_COLOR;
   for (const obj of selectedObj) {
     obj.shape.draw(canvasCtx);
+  }
+
+  canvasCtx.fillStyle = POINT_COLOR;
+  for (const point of bufferPoints) {
+    canvasCtx.fillRect(point.x, point.y, 5, 5);
   }
 }

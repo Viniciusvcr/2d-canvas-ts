@@ -1,7 +1,16 @@
 import React from "react";
 import { Button } from "react-bootstrap";
+import { MouseAction, Mouse } from "../store/mouse";
+import * as ShapeController from "../controllers/shape.controller";
 
-const Tools: React.FC = () => {
+interface Props {
+  mouseDispatcher: React.Dispatch<MouseAction>;
+  mouseStore: Mouse;
+}
+
+const Tools: React.FC<Props> = (props: Props) => {
+  const { mouseDispatcher, mouseStore } = props;
+
   const style: React.CSSProperties = {
     alignSelf: "center",
   };
@@ -12,6 +21,14 @@ const Tools: React.FC = () => {
         variant="outline-light"
         className="btn btn-outline-dark btn-sm m-1"
         id="lineButton"
+        onClick={() => {
+          mouseDispatcher({
+            type: "INIT_DRAWING",
+            mousePoint: mouseStore.position,
+            createFn: ShapeController.createLine,
+            pointsRequired: 2,
+          });
+        }}
       >
         Line (l)
       </Button>

@@ -1,18 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { getMousePosition } from "../controllers/canvas.controller";
-import { Point } from "../models";
-import { MouseAction } from "../store/mouse";
+import { MouseAction, Mouse } from "../store/mouse";
 import { ShapeAction, ShapeStore } from "../store/shape";
 
 interface CanvasProps {
   mouseDispatcher: React.Dispatch<MouseAction>;
   shapeDispatcher: React.Dispatch<ShapeAction>;
   shapeStore: ShapeStore;
-  position: Point;
+  mouseStore: Mouse;
 }
 
 const Canvas: React.FC<CanvasProps> = function (props: CanvasProps) {
-  const { position, mouseDispatcher } = props;
+  const { mouseStore, mouseDispatcher, shapeStore } = props;
+
+  useEffect(() => {
+    if (mouseStore.pointsRequired === mouseStore.buffer.length) {
+      if (mouseStore.createFn)
+        mouseStore.createFn(mouseStore.buffer, shapeStore);
+
+      mouseDispatcher({
+        type: "END_DRAWING",
+        mousePoint: mouseStore.position,
+      });
+    }
+  }, [mouseDispatcher, mouseStore, shapeStore]);
 
   return (
     <div
@@ -38,10 +49,16 @@ const Canvas: React.FC<CanvasProps> = function (props: CanvasProps) {
               border: "1px solid black",
               boxShadow: "0px 2px 10px -5px rgba(0,0,0,0.75)",
             }}
+            onClick={() => {
+              mouseDispatcher({
+                type: "DRAWING",
+                mousePoint: mouseStore.position,
+              });
+            }}
             onMouseMove={(e) => {
               mouseDispatcher({
-                mousePoint: getMousePosition(e),
                 type: "UPDATE_AXIS",
+                mousePoint: getMousePosition(e),
               });
             }}
           ></canvas>
@@ -51,14 +68,14 @@ const Canvas: React.FC<CanvasProps> = function (props: CanvasProps) {
               id="xAxis"
               style={{ paddingLeft: "8px" }}
             >
-              Axis X: {position.x}
+              Axis X: {mouseStore.position.x}
             </span>
             <span
               className="badge badge-dark m-1"
               id="yAxis"
               style={{ paddingLeft: "8px" }}
             >
-              Axis Y: {position.y}
+              Axis Y: {mouseStore.position.y}
             </span>
           </div>
         </div>

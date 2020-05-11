@@ -1,7 +1,6 @@
 import React from "react";
 import Item from "./Item";
 import { ShapeAction, onCanvasInterface } from "../store/shape";
-import { Rectangle, Circle } from "../models";
 
 interface Props {
   storeDispatcher: React.Dispatch<ShapeAction>;
@@ -9,20 +8,8 @@ interface Props {
 }
 
 const ItemList: React.FC<Props> = function (props: Props) {
-  let { itemList, storeDispatcher } = props;
+  const { itemList, storeDispatcher } = props;
 
-  itemList = [
-    {
-      id: 1,
-      selected: true,
-      shape: new Rectangle({ x: 0, y: 0 }, { x: 0, y: 0 }),
-    },
-    {
-      id: 2,
-      selected: false,
-      shape: new Circle({ x: 0, y: 0 }, { x: 0, y: 0 }),
-    },
-  ];
   return (
     <div
       style={{

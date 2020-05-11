@@ -9,7 +9,7 @@ export enum ShapeActionEnum {
 }
 
 export interface onCanvasInterface {
-  id: number;
+  id: string;
   shape: Shape;
   selected: boolean;
 }
@@ -17,13 +17,11 @@ export interface onCanvasInterface {
 export interface ShapeStore {
   onCanvas: onCanvasInterface[];
   readonly axis: Shape[];
-  ID: number;
 }
 
 export interface ShapeAction {
   type: ShapeActionEnum;
-  shape?: Shape;
-  points?: Point[];
+  pointsBuffer: Point[];
 }
 
 export const INITIAL_SHAPE_STATE: ShapeStore = {
@@ -40,5 +38,4 @@ export const INITIAL_SHAPE_STATE: ShapeStore = {
     new Line({ x: 20, y: 262 }, { x: 15, y: 270 }), // Y
     new Line({ x: 15, y: 262 }, { x: 17, y: 266 }), // Y
   ],
-  ID: 0,
 };

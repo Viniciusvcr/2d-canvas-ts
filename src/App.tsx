@@ -10,13 +10,60 @@ import {
 } from "./store/shape";
 
 function App() {
-  const [{ position }, mouseDispatcher] = useReducer(
+  const [shapeStore, shapeDispatcher] = useReducer(
+    (state: ShapeStore, action: ShapeAction) => {
+      switch (action.type) {
+        case ShapeActionEnum.CREATE_SHAPE:
+          return {
+            ...state,
+          };
+
+        default:
+          return state;
+      }
+    },
+    INITIAL_SHAPE_STATE
+  );
+
+  const [mouseStore, mouseDispatcher] = useReducer(
     (state: Mouse, action: MouseAction) => {
       switch (action.type) {
         case "UPDATE_AXIS":
           return {
             ...state,
             position: action.mousePoint,
+          };
+
+        case "INIT_DRAWING":
+          return {
+            ...state,
+            isDrawing: true,
+            pointsRequired: action.pointsRequired,
+            createFn: action.createFn,
+          };
+
+        case "DRAWING":
+          if (state.isDrawing) {
+            return {
+              ...state,
+              buffer: [...state.buffer, state.position],
+            };
+          } else return state;
+
+        case "END_DRAWING":
+          return {
+            ...state,
+            isDrawing: false,
+            buffer: [],
+            createFn: undefined,
+          };
+
+        case "CANCEL_DRAWING":
+          return {
+            ...state,
+            isDrawing: false,
+            buffer: [],
+            createFn: undefined,
           };
 
         default:
@@ -26,23 +73,30 @@ function App() {
     INITIAL_MOUSE_STATE
   );
 
-  const [shapeStore, shapeDispatcher] = useReducer(
-    (state: ShapeStore, action: ShapeAction) => {
-      switch (action.type) {
-        default:
-          return state;
-      }
-    },
-    INITIAL_SHAPE_STATE
-  );
-
   useEffect(() => {
     const canvasRef = document.getElementById("canvas") as HTMLCanvasElement;
     canvasRef.width = 1024;
     canvasRef.height = 768;
 
-    renderObjects(shapeStore, canvasRef);
-  }, [shapeStore]);
+    renderObjects(
+      shapeStore.onCanvas,
+      shapeStore.axis,
+      mouseStore.buffer,
+      canvasRef
+    );
+  }, [mouseStore.buffer, shapeStore.axis, shapeStore.onCanvas]);
+
+  useEffect(() => {
+    document.addEventListener("keydown", (event) => {
+      switch (event.key) {
+        case "Escape":
+          mouseDispatcher({
+            type: "CANCEL_DRAWING",
+            mousePoint: mouseStore.position,
+          });
+      }
+    });
+  }, [mouseStore.position]);
 
   return (
     <div className="App">
@@ -66,10 +120,10 @@ function App() {
             paddingTop: "8px",
           }}
         >
-          <Tools />
+          <Tools mouseDispatcher={mouseDispatcher} mouseStore={mouseStore} />
           <Canvas
             mouseDispatcher={mouseDispatcher}
-            position={position}
+            mouseStore={mouseStore}
             shapeDispatcher={shapeDispatcher}
             shapeStore={shapeStore}
           />
