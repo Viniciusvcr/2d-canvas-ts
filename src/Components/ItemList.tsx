@@ -3,12 +3,12 @@ import Item from "./Item";
 import { ShapeAction, onCanvasInterface } from "../store/shape";
 
 interface Props {
-  storeDispatcher: React.Dispatch<ShapeAction>;
-  itemList: onCanvasInterface[];
+  shapeDispatcher: React.Dispatch<ShapeAction>;
+  itemList: onCanvasInterface;
 }
 
 const ItemList: React.FC<Props> = function (props: Props) {
-  const { itemList, storeDispatcher } = props;
+  const { itemList, shapeDispatcher } = props;
 
   return (
     <div
@@ -22,11 +22,11 @@ const ItemList: React.FC<Props> = function (props: Props) {
       <h5 style={{ textAlign: "center" }}>ObjectList</h5>
       <hr />
       <ul className="list-group">
-        {itemList.map((item) => (
+        {Object.entries(itemList).map(([id, obj]) => (
           <Item
-            item={item}
-            key={item.id}
-            storeDispatcher={storeDispatcher}
+            item={{ id, obj }}
+            key={id}
+            shapeDispatcher={shapeDispatcher}
           ></Item>
         ))}
       </ul>

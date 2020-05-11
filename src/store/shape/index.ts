@@ -6,26 +6,31 @@ export enum ShapeActionEnum {
   UPDATE_SHAPE,
   DELETE_SHAPE,
   SELECT_SHAPE,
+  UNSELECT_SHAPE,
 }
 
-export interface onCanvasInterface {
-  id: string;
-  shape: Shape;
+export interface ShapeInterface {
+  obj: Shape;
   selected: boolean;
 }
 
+export interface onCanvasInterface {
+  [id: string]: ShapeInterface;
+}
+
 export interface ShapeStore {
-  onCanvas: onCanvasInterface[];
+  onCanvas: onCanvasInterface;
   readonly axis: Shape[];
 }
 
 export interface ShapeAction {
   type: ShapeActionEnum;
-  pointsBuffer: Point[];
+  pointsBuffer?: Point[];
+  id?: string;
 }
 
 export const INITIAL_SHAPE_STATE: ShapeStore = {
-  onCanvas: [],
+  onCanvas: {},
   axis: [
     new Line({ x: 10, y: 10 }, { x: 10, y: 280 }), // Eixo Y
     new Line({ x: 10, y: 10 }, { x: 280, y: 10 }), // Eixo X

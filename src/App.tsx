@@ -18,6 +18,24 @@ function App() {
             ...state,
           };
 
+        case ShapeActionEnum.SELECT_SHAPE:
+          const toSelect = state.onCanvas[action.id!];
+          toSelect.selected = true;
+
+          return {
+            ...state,
+            onCanvas: { ...state.onCanvas, [action.id!]: toSelect },
+          };
+
+        case ShapeActionEnum.UNSELECT_SHAPE:
+          const toUnselect = state.onCanvas[action.id!];
+          toUnselect.selected = false;
+
+          return {
+            ...state,
+            onCanvas: { ...state.onCanvas },
+          };
+
         default:
           return state;
       }
@@ -79,7 +97,7 @@ function App() {
     canvasRef.height = 768;
 
     renderObjects(
-      shapeStore.onCanvas,
+      Object.values(shapeStore.onCanvas),
       shapeStore.axis,
       mouseStore.buffer,
       canvasRef
@@ -130,7 +148,7 @@ function App() {
         </div>
         <ItemList
           itemList={shapeStore.onCanvas}
-          storeDispatcher={shapeDispatcher}
+          shapeDispatcher={shapeDispatcher}
         />
       </div>
     </div>

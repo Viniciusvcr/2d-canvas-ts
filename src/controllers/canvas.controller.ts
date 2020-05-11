@@ -1,5 +1,5 @@
 import { Point, Shape } from "../models/";
-import { onCanvasInterface } from "../store/shape";
+import { ShapeInterface } from "../store/shape";
 
 export function getMousePosition(
   e: React.MouseEvent<HTMLCanvasElement, MouseEvent>
@@ -13,7 +13,7 @@ export function getMousePosition(
 }
 
 export function renderObjects(
-  onCanvas: onCanvasInterface[],
+  onCanvas: ShapeInterface[],
   axis: Shape[],
   bufferPoints: Point[],
   canvas: HTMLCanvasElement,
@@ -21,7 +21,7 @@ export function renderObjects(
   height: number = 720
 ) {
   const SHAPE_COLOR = "black";
-  const SELECTED_COLOR = "#D50000";
+  const SELECTED_COLOR = "blue";
   const AXIS_COLOR = "#000000";
   const POINT_COLOR = "red";
 
@@ -29,7 +29,7 @@ export function renderObjects(
   const onCanvasValues = onCanvas.filter((obj) => {
     return !obj.selected;
   });
-  const selectedObj = onCanvasValues.filter((obj) => {
+  const selectedObj = onCanvas.filter((obj) => {
     return obj.selected;
   });
 
@@ -41,13 +41,13 @@ export function renderObjects(
   }
 
   canvasCtx.strokeStyle = SHAPE_COLOR;
-  for (const obj of onCanvasValues) {
-    obj.shape.draw(canvasCtx);
+  for (const { obj } of onCanvasValues) {
+    obj.draw(canvasCtx);
   }
 
   canvasCtx.strokeStyle = SELECTED_COLOR;
-  for (const obj of selectedObj) {
-    obj.shape.draw(canvasCtx);
+  for (const { obj } of selectedObj) {
+    obj.draw(canvasCtx);
   }
 
   canvasCtx.fillStyle = POINT_COLOR;

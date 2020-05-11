@@ -1,6 +1,6 @@
 import Command from "./Command";
 import { Shape } from "../models";
-import { ShapeStore, onCanvasInterface } from "../store/shape";
+import { ShapeStore } from "../store/shape";
 import { v4 as uuidv4 } from "uuid";
 
 export default class DrawObjectCommand implements Command {
@@ -15,16 +15,10 @@ export default class DrawObjectCommand implements Command {
   }
 
   execute(): void {
-    const newOnCanvas: onCanvasInterface = {
-      id: this.id,
-      selected: false,
-      shape: this.object,
-    };
-
-    this.shapeStore.onCanvas = [...this.shapeStore.onCanvas, newOnCanvas];
+    this.shapeStore.onCanvas[this.id] = { obj: this.object, selected: false };
   }
 
   undo(): void {
-    this.shapeStore.onCanvas.filter((obj) => obj.id !== this.id);
+    delete this.shapeStore.onCanvas[this.id];
   }
 }
