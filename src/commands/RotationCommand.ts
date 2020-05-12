@@ -59,7 +59,6 @@ export default class RotationCommand implements Command {
       const newCoordinates = getCoordinates(result);
 
       const oldPoints = obj.points.map((point) => point);
-      console.log(newCoordinates);
       this.oldCanvas.push({ obj, oldPoints });
 
       obj.update(newCoordinates);
