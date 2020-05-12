@@ -6,6 +6,7 @@ import {
   undoCommand,
   redoCommand,
   selectAll,
+  unselectAll,
 } from "../controllers/shape.controller";
 
 interface Props {
@@ -71,7 +72,13 @@ const Header: React.FC<Props> = (props: Props) => {
           >
             Select All
           </Button>
-          <Button className="mr-1" variant="outline-light">
+          <Button
+            className="mr-1"
+            variant="outline-light"
+            onClick={() => {
+              unselectAll(shapeStore.onCanvas, shapeDispatcher);
+            }}
+          >
             Unselect All
           </Button>
         </Navbar.Collapse>

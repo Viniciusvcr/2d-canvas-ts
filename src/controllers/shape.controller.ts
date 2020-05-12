@@ -5,6 +5,7 @@ import { ShapeAction, onCanvasInterface } from "../store/shape";
 import DeleteCommand from "../commands/DeleteCommand";
 import ClearCommand from "../commands/ClearCommand";
 import SelectAllCommand from "../commands/SelectAllCommand";
+import UnselectAllCommand from "../commands/UnselectAllCommand";
 
 const operation = Operation.getInstance();
 
@@ -72,4 +73,11 @@ export function selectAll(
   shapeDispatcher: React.Dispatch<ShapeAction>
 ) {
   operation.executeCommand(new SelectAllCommand(onCanvas, shapeDispatcher));
+}
+
+export function unselectAll(
+  onCanvas: onCanvasInterface,
+  shapeDispatcher: React.Dispatch<ShapeAction>
+) {
+  operation.executeCommand(new UnselectAllCommand(onCanvas, shapeDispatcher));
 }
