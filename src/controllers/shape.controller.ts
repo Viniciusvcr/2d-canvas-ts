@@ -1,8 +1,9 @@
 import { Point, Circle, Line, Rectangle, Triangle, Shape } from "../models";
 import Operation from "../commands/Operation";
 import DrawObjectCommand from "../commands/DrawObjectCommand";
-import { ShapeAction } from "../store/shape";
+import { ShapeAction, onCanvasInterface } from "../store/shape";
 import DeleteCommand from "../commands/DeleteCommand";
+import ClearCommand from "../commands/ClearCommand";
 
 const operation = Operation.getInstance();
 
@@ -48,4 +49,11 @@ export function deleteShape(
   dispatcher: React.Dispatch<ShapeAction>
 ) {
   operation.executeCommand(new DeleteCommand(id, obj, dispatcher));
+}
+
+export function clearCanvas(
+  actualCanvas: onCanvasInterface,
+  shapeDispatcher: React.Dispatch<ShapeAction>
+) {
+  operation.executeCommand(new ClearCommand(actualCanvas, shapeDispatcher));
 }

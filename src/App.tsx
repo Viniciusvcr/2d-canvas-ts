@@ -48,6 +48,18 @@ function App() {
             onCanvas: { ...state.onCanvas },
           };
 
+        case ShapeActionEnum.CLEAR_CANVAS:
+          return {
+            ...state,
+            onCanvas: {},
+          };
+
+        case ShapeActionEnum.UPDATE_CANVAS:
+          return {
+            ...state,
+            onCanvas: action.previousCanvas!,
+          };
+
         default:
           return state;
       }
@@ -130,7 +142,7 @@ function App() {
 
   return (
     <div className="App">
-      <Header />
+      <Header shapeStore={shapeStore} shapeDispatcher={shapeDispatcher} />
       <div
         style={{
           display: "flex",

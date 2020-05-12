@@ -7,6 +7,8 @@ export enum ShapeActionEnum {
   DELETE_SHAPE,
   SELECT_SHAPE,
   UNSELECT_SHAPE,
+  CLEAR_CANVAS,
+  UPDATE_CANVAS,
 }
 
 export interface ShapeInterface {
@@ -27,6 +29,7 @@ export interface ShapeAction {
   type: ShapeActionEnum;
   shapeBuffer?: Shape;
   id?: string;
+  previousCanvas?: onCanvasInterface;
 }
 
 export const INITIAL_SHAPE_STATE: ShapeStore = {
