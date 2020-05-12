@@ -1,7 +1,8 @@
-import { Point, Circle, Line, Rectangle, Triangle } from "../models";
+import { Point, Circle, Line, Rectangle, Triangle, Shape } from "../models";
 import Operation from "../commands/Operation";
 import DrawObjectCommand from "../commands/DrawObjectCommand";
 import { ShapeAction } from "../store/shape";
+import DeleteCommand from "../commands/DeleteCommand";
 
 const operation = Operation.getInstance();
 
@@ -39,4 +40,12 @@ export function createTriangle(
   operation.executeCommand(
     new DrawObjectCommand(new Triangle(p1, p2, p3), shapeDispatcher)
   );
+}
+
+export function deleteShape(
+  id: string,
+  obj: Shape,
+  dispatcher: React.Dispatch<ShapeAction>
+) {
+  operation.executeCommand(new DeleteCommand(id, obj, dispatcher));
 }

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import Emoji from "./Emoji";
 import { ShapeAction, ShapeActionEnum, ShapeInterface } from "../store/shape";
-import Operation from "../commands/Operation";
-import DeleteCommand from "../commands/DeleteCommand";
+import { deleteShape } from "../controllers/shape.controller";
 
 interface Props {
   shapeDispatcher: React.Dispatch<ShapeAction>;
@@ -14,11 +13,8 @@ const Item: React.FC<Props> = function (props: Props) {
   const { item, shapeDispatcher } = props;
   const style = "list-group-item d-flex justify-content-between";
 
-  const deleteFn = () => {
-    Operation.getInstance().executeCommand(
-      new DeleteCommand(item.id, item.obj.obj, shapeDispatcher)
-    );
-  };
+  const id = item.id;
+  const obj = item.obj.obj;
 
   return (
     <li
@@ -30,7 +26,7 @@ const Item: React.FC<Props> = function (props: Props) {
         if (!clicked) {
           shapeDispatcher({
             type: ShapeActionEnum.SELECT_SHAPE,
-            id: item.id,
+            id,
           });
         }
       }}
@@ -38,12 +34,18 @@ const Item: React.FC<Props> = function (props: Props) {
         if (!clicked)
           shapeDispatcher({
             type: ShapeActionEnum.UNSELECT_SHAPE,
-            id: item.id,
+            id,
           });
       }}
     >
       {item.obj.obj.type}
-      <Emoji symbol="❌" label="Delete item" clickFn={deleteFn}></Emoji>
+      <Emoji
+        symbol="❌"
+        label="Delete item"
+        clickFn={() => {
+          deleteShape(item.id, obj, shapeDispatcher);
+        }}
+      ></Emoji>
     </li>
   );
 };
