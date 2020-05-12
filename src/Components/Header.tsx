@@ -8,6 +8,7 @@ import {
   selectAll,
   unselectAll,
   translate,
+  scale,
 } from "../controllers/shape.controller";
 import { Mouse, MouseAction } from "../store/mouse";
 
@@ -63,7 +64,20 @@ const Header: React.FC<Props> = (props: Props) => {
             >
               Translation
             </Button>
-            <Button className="mr-1" variant="outline-light">
+            <Button
+              className="mr-1"
+              variant="outline-light"
+              onClick={() => {
+                const sx = Number.parseFloat(
+                  prompt("Enter the x-axis scale", "1")!
+                );
+                const sy = Number.parseFloat(
+                  prompt("Enter the y-axis scale", "1")!
+                );
+
+                scale(sx, sy, shapeStore.onCanvas, shapeDispatcher);
+              }}
+            >
               Scale
             </Button>
             <Button className="mr-1" variant="outline-light">

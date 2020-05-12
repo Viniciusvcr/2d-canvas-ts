@@ -7,6 +7,7 @@ import ClearCommand from "../commands/ClearCommand";
 import SelectAllCommand from "../commands/SelectAllCommand";
 import UnselectAllCommand from "../commands/UnselectAllCommand";
 import TranslationCommand from "../commands/TranslationCommand";
+import ScaleCommand from "../commands/ScaleCommand";
 
 const operation = Operation.getInstance();
 
@@ -91,4 +92,13 @@ export function translate(
   operation.executeCommand(
     new TranslationCommand(points, onCanvas, shapeDispatcher)
   );
+}
+
+export function scale(
+  sx: number,
+  sy: number,
+  onCanvas: onCanvasInterface,
+  shapeDispatcher: React.Dispatch<ShapeAction>
+) {
+  operation.executeCommand(new ScaleCommand(sx, sy, onCanvas, shapeDispatcher));
 }

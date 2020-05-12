@@ -1,60 +1,59 @@
 import Command, { oldObjectInterface } from "./Command";
-import { Point, Shape } from "../models";
 import {
-  onCanvasInterface,
   ShapeAction,
+  onCanvasInterface,
   ShapeActionEnum,
 } from "../store/shape";
+import {
+  generateMatrix,
+  matrixMultiply,
+  getCoordinates,
+} from "../controllers/matrix.controller";
 
-interface oldCanvasI {
-  [id: string]: { oldPoints: Point[]; obj: Shape };
-}
-
-export default class TranslationCommand implements Command {
-  p1: Point;
-  p2: Point;
+export default class ScaleCommand implements Command {
+  sx: number;
+  sy: number;
   objects: onCanvasInterface;
   oldCanvas: oldObjectInterface[];
-  dx: number;
-  dy: number;
   shapeDispatcher: React.Dispatch<ShapeAction>;
 
   constructor(
-    [p1, p2]: Point[],
+    sx: number,
+    sy: number,
     onCanvas: onCanvasInterface,
-    shapeDispatcher: React.Dispatch<ShapeAction>,
-    needsCalc = true
+    shapeDispatcher: React.Dispatch<ShapeAction>
   ) {
-    this.p1 = p1;
-    this.p2 = p2;
+    this.sx = sx;
+    this.sy = sy;
     this.objects = onCanvas;
-    this.dx = needsCalc ? p2.x - p1.x : p1.x;
-    this.dy = needsCalc ? p2.y - p1.y : p1.y;
     this.shapeDispatcher = shapeDispatcher;
     this.oldCanvas = [];
   }
 
   execute(): void {
-    let newCoordinates: Point[] = [];
-
     const selectedObjects = Object.entries(this.objects).filter(
       ([, obj]) => obj.selected
     );
 
     for (const [, { obj }] of selectedObjects) {
       const listOfPoints = obj.points.map((point) => point);
+      const mObj = generateMatrix([obj]);
+      const x = obj.points[0].x;
+      const y = obj.points[0].y;
+      const mTransformation: number[][] = [
+        [this.sx, 0, x - x * this.sx],
+        [0, this.sy, y - y * this.sy],
+        [0, 0, 1],
+      ];
 
-      this.oldCanvas.push({ oldPoints: listOfPoints, obj: obj });
+      const result = matrixMultiply(mTransformation, mObj);
+      const newCoordinates = getCoordinates(result);
 
-      for (const point of listOfPoints) {
-        const p: Point = { x: point.x + this.dx, y: point.y + this.dy };
-
-        newCoordinates.push(p);
-      }
+      this.oldCanvas.push({ obj, oldPoints: listOfPoints });
 
       obj.update(newCoordinates);
-      newCoordinates = [];
     }
+
     this.shapeDispatcher({ type: ShapeActionEnum.UPDATE_SHAPES });
   }
   undo(): void {
