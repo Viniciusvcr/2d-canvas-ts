@@ -6,6 +6,7 @@ import DeleteCommand from "../commands/DeleteCommand";
 import ClearCommand from "../commands/ClearCommand";
 import SelectAllCommand from "../commands/SelectAllCommand";
 import UnselectAllCommand from "../commands/UnselectAllCommand";
+import TranslationCommand from "../commands/TranslationCommand";
 
 const operation = Operation.getInstance();
 
@@ -80,4 +81,14 @@ export function unselectAll(
   shapeDispatcher: React.Dispatch<ShapeAction>
 ) {
   operation.executeCommand(new UnselectAllCommand(onCanvas, shapeDispatcher));
+}
+
+export function translate(
+  points: Point[],
+  onCanvas: onCanvasInterface,
+  shapeDispatcher: React.Dispatch<ShapeAction>
+) {
+  operation.executeCommand(
+    new TranslationCommand(points, onCanvas, shapeDispatcher)
+  );
 }

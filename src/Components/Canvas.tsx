@@ -15,13 +15,29 @@ const Canvas: React.FC<CanvasProps> = function (props: CanvasProps) {
 
   useEffect(() => {
     if (mouseStore.pointsRequired === mouseStore.buffer.length) {
-      if (mouseStore.createFn)
-        mouseStore.createFn(mouseStore.buffer, shapeDispatcher);
+      if (mouseStore.createFn) {
+        if (mouseStore.isDrawing) {
+          mouseStore.createFn(mouseStore.buffer, shapeDispatcher);
+          mouseDispatcher({
+            type: "END_DRAWING",
+            mousePoint: mouseStore.position,
+          });
+        }
 
-      mouseDispatcher({
-        type: "END_DRAWING",
-        mousePoint: mouseStore.position,
-      });
+        if (mouseStore.isTransforming) {
+          mouseStore.createFn(
+            mouseStore.buffer,
+            shapeStore.onCanvas,
+            shapeDispatcher
+          );
+
+          mouseDispatcher({
+            type: "END_TRANSFORMING",
+            mousePoint: mouseStore.position,
+          });
+          console.log(mouseStore);
+        }
+      }
     }
   }, [mouseDispatcher, mouseStore, shapeDispatcher, shapeStore]);
 

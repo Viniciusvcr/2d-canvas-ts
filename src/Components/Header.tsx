@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Navbar, Nav, Button } from "react-bootstrap";
 import { ShapeStore, ShapeAction } from "../store/shape";
 import {
@@ -7,15 +7,19 @@ import {
   redoCommand,
   selectAll,
   unselectAll,
+  translate,
 } from "../controllers/shape.controller";
+import { Mouse, MouseAction } from "../store/mouse";
 
 interface Props {
   shapeStore: ShapeStore;
   shapeDispatcher: React.Dispatch<ShapeAction>;
+  mouseStore: Mouse;
+  mouseDispatcher: React.Dispatch<MouseAction>;
 }
 
 const Header: React.FC<Props> = (props: Props) => {
-  const { shapeStore, shapeDispatcher } = props;
+  const { shapeStore, shapeDispatcher, mouseStore, mouseDispatcher } = props;
 
   return (
     <div>
@@ -45,7 +49,18 @@ const Header: React.FC<Props> = (props: Props) => {
             >
               Redo
             </Button>
-            <Button className="mr-1" variant="outline-light">
+            <Button
+              className="mr-1"
+              variant="outline-light"
+              onClick={() => {
+                mouseDispatcher({
+                  type: "INIT_TRANSFORMING",
+                  mousePoint: mouseStore.position,
+                  createFn: translate,
+                  pointsRequired: 2,
+                });
+              }}
+            >
               Translation
             </Button>
             <Button className="mr-1" variant="outline-light">

@@ -3,9 +3,9 @@ import { Line } from "../../models/Line";
 
 export enum ShapeActionEnum {
   CREATE_SHAPE,
-  UPDATE_SHAPE,
   DELETE_SHAPE,
   SELECT_SHAPE,
+  UPDATE_SHAPES,
   UNSELECT_SHAPE,
   CLEAR_CANVAS,
   UPDATE_CANVAS,

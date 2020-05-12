@@ -3,6 +3,7 @@ import { Point } from "../../models/";
 export interface Mouse {
   position: Point;
   isDrawing: boolean;
+  isTransforming: boolean;
   buffer: Point[];
   createFn?: Function;
   pointsRequired?: number;
@@ -14,7 +15,9 @@ export interface MouseAction {
     | "INIT_DRAWING"
     | "END_DRAWING"
     | "DRAWING"
-    | "CANCEL_DRAWING";
+    | "CANCEL_DRAWING"
+    | "INIT_TRANSFORMING"
+    | "END_TRANSFORMING";
   mousePoint: Point;
   createFn?: Function;
   pointsRequired?: number;
@@ -23,5 +26,6 @@ export interface MouseAction {
 export const INITIAL_MOUSE_STATE: Mouse = {
   position: { x: 0, y: 0 },
   isDrawing: false,
+  isTransforming: false,
   buffer: [],
 };

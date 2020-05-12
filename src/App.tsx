@@ -22,6 +22,12 @@ function App() {
             },
           };
 
+        case ShapeActionEnum.UPDATE_SHAPES:
+          return {
+            ...state,
+            onCanvas: { ...state.onCanvas },
+          };
+
         case ShapeActionEnum.DELETE_SHAPE:
           delete state.onCanvas[action.id!];
 
@@ -85,7 +91,7 @@ function App() {
           };
 
         case "DRAWING":
-          if (state.isDrawing) {
+          if (state.isDrawing || state.isTransforming) {
             return {
               ...state,
               buffer: [...state.buffer, state.position],
@@ -104,6 +110,22 @@ function App() {
           return {
             ...state,
             isDrawing: false,
+            buffer: [],
+            createFn: undefined,
+          };
+
+        case "INIT_TRANSFORMING":
+          return {
+            ...state,
+            isTransforming: true,
+            pointsRequired: action.pointsRequired,
+            createFn: action.createFn,
+          };
+
+        case "END_TRANSFORMING":
+          return {
+            ...state,
+            isTransforming: false,
             buffer: [],
             createFn: undefined,
           };
@@ -142,7 +164,12 @@ function App() {
 
   return (
     <div className="App">
-      <Header shapeStore={shapeStore} shapeDispatcher={shapeDispatcher} />
+      <Header
+        shapeStore={shapeStore}
+        shapeDispatcher={shapeDispatcher}
+        mouseStore={mouseStore}
+        mouseDispatcher={mouseDispatcher}
+      />
       <div
         style={{
           display: "flex",
