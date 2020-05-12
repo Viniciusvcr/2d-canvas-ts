@@ -1,24 +1,28 @@
 import Command from "./Command";
 import { Shape } from "../models";
-import { ShapeStore } from "../store/shape";
+import { ShapeAction, ShapeActionEnum } from "../store/shape";
 import { v4 as uuidv4 } from "uuid";
 
 export default class DrawObjectCommand implements Command {
   id: string;
   object: Shape;
-  shapeStore: ShapeStore;
+  shapeDispatcher: React.Dispatch<ShapeAction>;
 
-  constructor(object: Shape, shapeStore: ShapeStore) {
+  constructor(object: Shape, shapeDispacther: React.Dispatch<ShapeAction>) {
     this.id = uuidv4();
     this.object = object;
-    this.shapeStore = shapeStore;
+    this.shapeDispatcher = shapeDispacther;
   }
 
   execute(): void {
-    this.shapeStore.onCanvas[this.id] = { obj: this.object, selected: false };
+    this.shapeDispatcher({
+      type: ShapeActionEnum.CREATE_SHAPE,
+      id: this.id,
+      shapeBuffer: this.object,
+    });
   }
 
   undo(): void {
-    delete this.shapeStore.onCanvas[this.id];
+    this.shapeDispatcher({ type: ShapeActionEnum.DELETE_SHAPE, id: this.id });
   }
 }

@@ -16,6 +16,18 @@ function App() {
         case ShapeActionEnum.CREATE_SHAPE:
           return {
             ...state,
+            onCanvas: {
+              ...state.onCanvas,
+              [action.id!]: { obj: action.shapeBuffer!, selected: false },
+            },
+          };
+
+        case ShapeActionEnum.DELETE_SHAPE:
+          delete state.onCanvas[action.id!];
+
+          return {
+            ...state,
+            onCanvas: { ...state.onCanvas },
           };
 
         case ShapeActionEnum.SELECT_SHAPE:

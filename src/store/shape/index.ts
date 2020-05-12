@@ -1,4 +1,4 @@
-import { Shape, Point } from "../../models/";
+import { Shape } from "../../models/";
 import { Line } from "../../models/Line";
 
 export enum ShapeActionEnum {
@@ -25,7 +25,7 @@ export interface ShapeStore {
 
 export interface ShapeAction {
   type: ShapeActionEnum;
-  pointsBuffer?: Point[];
+  shapeBuffer?: Shape;
   id?: string;
 }
 

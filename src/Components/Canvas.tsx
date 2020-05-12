@@ -11,19 +11,19 @@ interface CanvasProps {
 }
 
 const Canvas: React.FC<CanvasProps> = function (props: CanvasProps) {
-  const { mouseStore, mouseDispatcher, shapeStore } = props;
+  const { mouseStore, mouseDispatcher, shapeStore, shapeDispatcher } = props;
 
   useEffect(() => {
     if (mouseStore.pointsRequired === mouseStore.buffer.length) {
       if (mouseStore.createFn)
-        mouseStore.createFn(mouseStore.buffer, shapeStore);
+        mouseStore.createFn(mouseStore.buffer, shapeDispatcher);
 
       mouseDispatcher({
         type: "END_DRAWING",
         mousePoint: mouseStore.position,
       });
     }
-  }, [mouseDispatcher, mouseStore, shapeStore]);
+  }, [mouseDispatcher, mouseStore, shapeDispatcher, shapeStore]);
 
   return (
     <div
