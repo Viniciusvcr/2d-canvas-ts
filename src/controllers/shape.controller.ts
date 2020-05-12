@@ -57,3 +57,11 @@ export function clearCanvas(
 ) {
   operation.executeCommand(new ClearCommand(actualCanvas, shapeDispatcher));
 }
+
+export function undoCommand() {
+  operation.undoCommand();
+}
+
+export function redoCommand() {
+  operation.redoCommand();
+}

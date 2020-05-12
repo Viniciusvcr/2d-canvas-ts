@@ -1,7 +1,11 @@
 import React from "react";
 import { Navbar, Nav, Button } from "react-bootstrap";
 import { ShapeStore, ShapeAction } from "../store/shape";
-import { clearCanvas } from "../controllers/shape.controller";
+import {
+  clearCanvas,
+  undoCommand,
+  redoCommand,
+} from "../controllers/shape.controller";
 
 interface Props {
   shapeStore: ShapeStore;
@@ -25,10 +29,18 @@ const Header: React.FC<Props> = (props: Props) => {
             >
               Clear
             </Button>
-            <Button className="mr-1" variant="outline-light">
+            <Button
+              className="mr-1"
+              variant="outline-light"
+              onClick={() => undoCommand()}
+            >
               Undo
             </Button>
-            <Button className="mr-1" variant="outline-light">
+            <Button
+              className="mr-1"
+              variant="outline-light"
+              onClick={() => redoCommand()}
+            >
               Redo
             </Button>
             <Button className="mr-1" variant="outline-light">
