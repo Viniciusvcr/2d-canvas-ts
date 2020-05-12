@@ -8,6 +8,7 @@ import SelectAllCommand from "../commands/SelectAllCommand";
 import UnselectAllCommand from "../commands/UnselectAllCommand";
 import TranslationCommand from "../commands/TranslationCommand";
 import ScaleCommand from "../commands/ScaleCommand";
+import RotationCommand from "../commands/RotationCommand";
 
 const operation = Operation.getInstance();
 
@@ -101,4 +102,16 @@ export function scale(
   shapeDispatcher: React.Dispatch<ShapeAction>
 ) {
   operation.executeCommand(new ScaleCommand(sx, sy, onCanvas, shapeDispatcher));
+}
+
+export function rotation(
+  theta: number,
+  x: number,
+  y: number,
+  onCanvas: onCanvasInterface,
+  shapeDispatcher: React.Dispatch<ShapeAction>
+) {
+  operation.executeCommand(
+    new RotationCommand(theta, x, y, onCanvas, shapeDispatcher)
+  );
 }

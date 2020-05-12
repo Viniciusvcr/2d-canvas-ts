@@ -1,7 +1,7 @@
 import Command, { oldObjectInterface } from "./Command";
 import {
-  ShapeAction,
   onCanvasInterface,
+  ShapeAction,
   ShapeActionEnum,
 } from "../store/shape";
 import {
@@ -10,38 +10,48 @@ import {
   getCoordinates,
 } from "../controllers/matrix.controller";
 
-export default class ScaleCommand implements Command {
-  sx: number;
-  sy: number;
+export default class RotationCommand implements Command {
+  theta: number;
   objects: onCanvasInterface;
   oldCanvas: oldObjectInterface[];
   shapeDispatcher: React.Dispatch<ShapeAction>;
+  x: number;
+  y: number;
 
   constructor(
-    sx: number,
-    sy: number,
+    theta: number,
+    x: number,
+    y: number,
     onCanvas: onCanvasInterface,
     shapeDispatcher: React.Dispatch<ShapeAction>
   ) {
-    this.sx = sx;
-    this.sy = sy;
+    this.theta = -(theta * (Math.PI / 180));
+    this.x = x;
+    this.y = y;
     this.objects = onCanvas;
     this.shapeDispatcher = shapeDispatcher;
     this.oldCanvas = [];
   }
 
   execute(): void {
+    const [sin, cos, x, y] = [Math.sin, Math.cos, this.x, this.y];
     const selectedObjects = Object.entries(this.objects).filter(
       ([, obj]) => obj.selected
     );
 
     for (const [, { obj }] of selectedObjects) {
       const mObj = generateMatrix([obj]);
-      const x = obj.points[0].x;
-      const y = obj.points[0].y;
-      const mTransformation: number[][] = [
-        [this.sx, 0, x - x * this.sx],
-        [0, this.sy, y - y * this.sy],
+      const mTransformation = [
+        [
+          cos(this.theta),
+          -sin(this.theta),
+          y * sin(this.theta) - x * cos(this.theta) + x,
+        ],
+        [
+          sin(this.theta),
+          cos(this.theta),
+          -x * sin(this.theta) - y * cos(this.theta) + y,
+        ],
         [0, 0, 1],
       ];
 
@@ -49,12 +59,13 @@ export default class ScaleCommand implements Command {
       const newCoordinates = getCoordinates(result);
 
       const oldPoints = obj.points.map((point) => point);
+      console.log(newCoordinates);
       this.oldCanvas.push({ obj, oldPoints });
 
       obj.update(newCoordinates);
-    }
 
-    this.shapeDispatcher({ type: ShapeActionEnum.UPDATE_SHAPES });
+      this.shapeDispatcher({ type: ShapeActionEnum.UPDATE_SHAPES });
+    }
   }
   undo(): void {
     for (const { obj, oldPoints } of this.oldCanvas) {

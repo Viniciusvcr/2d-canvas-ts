@@ -9,6 +9,7 @@ import {
   unselectAll,
   translate,
   scale,
+  rotation,
 } from "../controllers/shape.controller";
 import { Mouse, MouseAction } from "../store/mouse";
 
@@ -80,7 +81,34 @@ const Header: React.FC<Props> = (props: Props) => {
             >
               Scale
             </Button>
-            <Button className="mr-1" variant="outline-light">
+            <Button
+              className="mr-1"
+              variant="outline-light"
+              onClick={() => {
+                const obj = Object.values(shapeStore.onCanvas).filter(
+                  (obj) => obj.selected
+                )[0];
+                const theta = Number.parseFloat(
+                  prompt("Insira o ângulo de rotação (em graus)", "0")!
+                );
+
+                const x = Number.parseFloat(
+                  prompt(
+                    "Insira o ponto de rotação X (padrão: X do primeiro ponto do primeiro objeto selecionado)",
+                    obj.obj.points[0].x.toString()
+                  )!
+                );
+
+                const y = Number.parseFloat(
+                  prompt(
+                    "Insira o ponto de rotação Y (padrão: Y do primeiro ponto do primeiro objeto selecionado)",
+                    obj.obj.points[0].y.toString()
+                  )!
+                );
+
+                rotation(theta, x, y, shapeStore.onCanvas, shapeDispatcher);
+              }}
+            >
               Rotation
             </Button>
             <Button className="mr-1" variant="outline-light">

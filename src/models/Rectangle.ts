@@ -8,7 +8,11 @@ export class Rectangle implements Shape {
     this.points = this.calculatePoints(p1, p2);
   }
 
-  calculatePoints(p1: Point, p2: Point): Point[] {
+  calculatePoints(p1: Point, p2: Point, p3?: Point, p4?: Point): Point[] {
+    if (p3 && p4) {
+      return [p1, p2, p3, p4];
+    }
+
     return [p1, p2, { x: p1.x, y: p2.y }, { x: p2.x, y: p1.y }];
   }
 
@@ -25,8 +29,8 @@ export class Rectangle implements Shape {
   }
 
   update(points: Point[]): void {
-    const [p1, p2] = points;
+    const [p1, p2, p3, p4] = points;
 
-    this.points = this.calculatePoints(p1, p2);
+    this.points = this.calculatePoints(p1, p2, p3, p4);
   }
 }
