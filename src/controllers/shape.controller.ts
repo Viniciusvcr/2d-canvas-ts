@@ -4,6 +4,7 @@ import DrawObjectCommand from "../commands/DrawObjectCommand";
 import { ShapeAction, onCanvasInterface } from "../store/shape";
 import DeleteCommand from "../commands/DeleteCommand";
 import ClearCommand from "../commands/ClearCommand";
+import SelectAllCommand from "../commands/SelectAllCommand";
 
 const operation = Operation.getInstance();
 
@@ -64,4 +65,11 @@ export function undoCommand() {
 
 export function redoCommand() {
   operation.redoCommand();
+}
+
+export function selectAll(
+  onCanvas: onCanvasInterface,
+  shapeDispatcher: React.Dispatch<ShapeAction>
+) {
+  operation.executeCommand(new SelectAllCommand(onCanvas, shapeDispatcher));
 }

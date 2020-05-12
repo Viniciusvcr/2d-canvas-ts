@@ -5,6 +5,7 @@ import {
   clearCanvas,
   undoCommand,
   redoCommand,
+  selectAll,
 } from "../controllers/shape.controller";
 
 interface Props {
@@ -44,9 +45,6 @@ const Header: React.FC<Props> = (props: Props) => {
               Redo
             </Button>
             <Button className="mr-1" variant="outline-light">
-              Redo
-            </Button>
-            <Button className="mr-1" variant="outline-light">
               Translation
             </Button>
             <Button className="mr-1" variant="outline-light">
@@ -64,7 +62,13 @@ const Header: React.FC<Props> = (props: Props) => {
           </Nav>
         </Navbar.Collapse>
         <Navbar.Collapse>
-          <Button className="mr-1" variant="outline-light">
+          <Button
+            className="mr-1"
+            variant="outline-light"
+            onClick={() => {
+              selectAll(shapeStore.onCanvas, shapeDispatcher);
+            }}
+          >
             Select All
           </Button>
           <Button className="mr-1" variant="outline-light">
