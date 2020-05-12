@@ -59,7 +59,6 @@ export default class TranslationCommand implements Command {
   }
   undo(): void {
     for (const item of Object.values(this.oldCanvas)) {
-      console.log(item.oldPoints);
       item.obj.update(item.oldPoints);
     }
 

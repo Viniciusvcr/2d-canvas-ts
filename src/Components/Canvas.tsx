@@ -35,7 +35,6 @@ const Canvas: React.FC<CanvasProps> = function (props: CanvasProps) {
             type: "END_TRANSFORMING",
             mousePoint: mouseStore.position,
           });
-          console.log(mouseStore);
         }
       }
     }

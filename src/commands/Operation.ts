@@ -21,7 +21,6 @@ export default class Operation {
   executeCommand(command: Command) {
     command.execute();
     this.history.push(command);
-    console.log(this.history);
   }
 
   undoCommand() {
