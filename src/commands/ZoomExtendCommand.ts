@@ -12,7 +12,6 @@ import {
   getCoordinatesForObject,
 } from "../controllers/matrix.controller";
 import TranslationCommand from "./TranslationCommand";
-import SelectAllCommand from "./SelectAllCommand";
 
 export default class ZoomExtendCommand implements Command {
   xyMin: Point;

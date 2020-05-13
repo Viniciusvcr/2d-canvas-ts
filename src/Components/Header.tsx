@@ -11,6 +11,7 @@ import {
   scale,
   rotation,
   zoomExtend,
+  zoom,
 } from "../controllers/shape.controller";
 import { Mouse, MouseAction } from "../store/mouse";
 
@@ -157,7 +158,18 @@ const Header: React.FC<Props> = (props: Props) => {
             >
               Zoom Extend
             </Button>
-            <Button className="mr-1" variant="outline-light">
+            <Button
+              className="mr-1"
+              variant="outline-light"
+              onClick={() => {
+                mouseDispatcher({
+                  type: "INIT_TRANSFORMING",
+                  mousePoint: mouseStore.position,
+                  createFn: zoom,
+                  pointsRequired: 2,
+                });
+              }}
+            >
               Zoom
             </Button>
           </Nav>

@@ -10,6 +10,7 @@ import TranslationCommand from "../commands/TranslationCommand";
 import ScaleCommand from "../commands/ScaleCommand";
 import RotationCommand from "../commands/RotationCommand";
 import ZoomExtendCommand from "../commands/ZoomExtendCommand";
+import ZoomCommand from "../commands/ZoomCommand";
 
 const operation = Operation.getInstance();
 
@@ -127,5 +128,25 @@ export function zoomExtend(
 ) {
   operation.executeCommand(
     new ZoomExtendCommand(xyMin, xyMax, uvMin, uvMax, shapeDispatcher, onCanvas)
+  );
+}
+
+export function zoom(
+  [xyMin, xyMax]: Point[],
+  onCanvas: onCanvasInterface,
+  shapeDispatcher: React.Dispatch<ShapeAction>
+) {
+  const { width, height } = document.getElementById(
+    "canvas"
+  )! as HTMLCanvasElement;
+
+  operation.executeCommand(
+    new ZoomCommand(
+      xyMin,
+      xyMax,
+      { x: width, y: height },
+      shapeDispatcher,
+      onCanvas
+    )
   );
 }
