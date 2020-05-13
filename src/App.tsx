@@ -42,7 +42,7 @@ function App() {
 
           return {
             ...state,
-            onCanvas: { ...state.onCanvas, [action.id!]: toSelect },
+            onCanvas: { ...state.onCanvas },
           };
 
         case ShapeActionEnum.UNSELECT_SHAPE:

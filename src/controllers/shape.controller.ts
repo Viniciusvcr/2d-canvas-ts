@@ -9,6 +9,7 @@ import UnselectAllCommand from "../commands/UnselectAllCommand";
 import TranslationCommand from "../commands/TranslationCommand";
 import ScaleCommand from "../commands/ScaleCommand";
 import RotationCommand from "../commands/RotationCommand";
+import ZoomExtendCommand from "../commands/ZoomExtendCommand";
 
 const operation = Operation.getInstance();
 
@@ -113,5 +114,18 @@ export function rotation(
 ) {
   operation.executeCommand(
     new RotationCommand(theta, x, y, onCanvas, shapeDispatcher)
+  );
+}
+
+export function zoomExtend(
+  xyMin: Point,
+  xyMax: Point,
+  uvMin: Point,
+  uvMax: Point,
+  shapeDispatcher: React.Dispatch<ShapeAction>,
+  onCanvas: onCanvasInterface
+) {
+  operation.executeCommand(
+    new ZoomExtendCommand(xyMin, xyMax, uvMin, uvMax, shapeDispatcher, onCanvas)
   );
 }

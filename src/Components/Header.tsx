@@ -10,6 +10,7 @@ import {
   translate,
   scale,
   rotation,
+  zoomExtend,
 } from "../controllers/shape.controller";
 import { Mouse, MouseAction } from "../store/mouse";
 
@@ -111,7 +112,49 @@ const Header: React.FC<Props> = (props: Props) => {
             >
               Rotation
             </Button>
-            <Button className="mr-1" variant="outline-light">
+            <Button
+              className="mr-1"
+              variant="outline-light"
+              onClick={() => {
+                const canvas = document.getElementById(
+                  "canvas"
+                )! as HTMLCanvasElement;
+
+                let xMin = canvas.width,
+                  yMin = canvas.height,
+                  xMax = 0,
+                  yMax = 0;
+
+                for (const { obj } of Object.values(shapeStore.onCanvas)) {
+                  for (const point of obj.points) {
+                    if (point.x > xMax) {
+                      xMax = point.x;
+                    }
+
+                    if (point.y > yMax) {
+                      yMax = point.y;
+                    }
+
+                    if (point.x < xMin) {
+                      xMin = point.x;
+                    }
+
+                    if (point.y < yMin) {
+                      yMin = point.y;
+                    }
+                  }
+                }
+
+                zoomExtend(
+                  { x: xMin, y: yMin },
+                  { x: xMax, y: yMax },
+                  { x: 0, y: 0 },
+                  { x: canvas.width, y: canvas.height },
+                  shapeDispatcher,
+                  shapeStore.onCanvas
+                );
+              }}
+            >
               Zoom Extend
             </Button>
             <Button className="mr-1" variant="outline-light">

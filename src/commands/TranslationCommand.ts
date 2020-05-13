@@ -57,6 +57,7 @@ export default class TranslationCommand implements Command {
     }
     this.shapeDispatcher({ type: ShapeActionEnum.UPDATE_SHAPES });
   }
+
   undo(): void {
     for (const item of this.oldCanvas) {
       item.obj.update(item.oldPoints);

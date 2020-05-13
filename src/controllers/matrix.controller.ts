@@ -30,10 +30,10 @@ export function getCoordinates(matrix: number[][]) {
 }
 
 export function getCoordinatesForObject(
-  matrix: number[][],
+  matrix: Point[],
   start: number,
   type: string
-) {
+): [number, Point[]] {
   let qntd = 0;
 
   if (type === "Circle") {
