@@ -1,5 +1,5 @@
-import React from "react";
-import { Navbar, Nav, Button } from "react-bootstrap";
+import React, { useState } from "react";
+import { Navbar, Nav, Button, Modal } from "react-bootstrap";
 import { ShapeStore, ShapeAction } from "../store/shape";
 import {
   clearCanvas,
@@ -14,6 +14,7 @@ import {
   zoom,
 } from "../controllers/shape.controller";
 import { Mouse, MouseAction } from "../store/mouse";
+import Emoji from "./Emoji";
 
 interface Props {
   shapeStore: ShapeStore;
@@ -23,6 +24,7 @@ interface Props {
 }
 
 const Header: React.FC<Props> = (props: Props) => {
+  const [showModal, setShowModal] = useState(false);
   const { shapeStore, shapeDispatcher, mouseStore, mouseDispatcher } = props;
 
   return (
@@ -194,7 +196,44 @@ const Header: React.FC<Props> = (props: Props) => {
             Unselect All
           </Button>
         </Navbar.Collapse>
-        <Button variant="light">Help</Button>
+        <Button
+          variant="light"
+          onClick={() => {
+            setShowModal(true);
+          }}
+        >
+          Help
+        </Button>
+
+        <Modal
+          size="lg"
+          show={showModal}
+          onHide={() => {
+            setShowModal(false);
+          }}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>User guide</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <h5>Under construction!</h5>
+            <Emoji symbol="🚧"></Emoji>
+            <Emoji symbol="🚧"></Emoji>
+            <Emoji symbol="🚧"></Emoji>
+            <Emoji symbol="🚧"></Emoji>
+            <Emoji symbol="🚧"></Emoji>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                setShowModal(false);
+              }}
+            >
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </Navbar>
     </div>
   );
