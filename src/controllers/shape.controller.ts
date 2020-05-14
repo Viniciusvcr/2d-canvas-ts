@@ -11,8 +11,47 @@ import ScaleCommand from "../commands/ScaleCommand";
 import RotationCommand from "../commands/RotationCommand";
 import ZoomExtendCommand from "../commands/ZoomExtendCommand";
 import ZoomCommand from "../commands/ZoomCommand";
+import { MouseAction } from "../store/mouse";
 
 const operation = Operation.getInstance();
+
+export function addKeyboardShortcuts(
+  mouseDispatcher: React.Dispatch<MouseAction>
+) {
+  function dispatch(createFn: Function, pointsRequired: number) {
+    mouseDispatcher({
+      type: "INIT_DRAWING",
+      createFn,
+      pointsRequired,
+    });
+  }
+
+  document.addEventListener("keydown", (event) => {
+    switch (event.key) {
+      case "Escape":
+        mouseDispatcher({
+          type: "CANCEL_DRAWING",
+        });
+        break;
+
+      case "l":
+        dispatch(createLine, 2);
+        break;
+
+      case "r":
+        dispatch(createRectangle, 2);
+        break;
+
+      case "t":
+        dispatch(createTriangle, 3);
+        break;
+
+      case "c":
+        dispatch(createCircle, 2);
+        break;
+    }
+  });
+}
 
 export function createCircle(
   [p1, p2]: Point[],

@@ -1,14 +1,15 @@
 import React from "react";
 import { Button } from "react-bootstrap";
-import { MouseAction } from "../store/mouse";
+import { MouseAction, Mouse } from "../store/mouse";
 import * as ShapeController from "../controllers/shape.controller";
 
 interface Props {
   mouseDispatcher: React.Dispatch<MouseAction>;
+  mouseStore: Mouse;
 }
 
 const Tools: React.FC<Props> = (props: Props) => {
-  const { mouseDispatcher } = props;
+  const { mouseDispatcher, mouseStore } = props;
 
   function handleClick(createFn: Function, pointsRequired: number) {
     mouseDispatcher({
@@ -18,6 +19,12 @@ const Tools: React.FC<Props> = (props: Props) => {
     });
   }
 
+  const chooseVariant = (functionName: Function) =>
+    functionName === mouseStore.createFn ? "light" : "outline-dark";
+
+  const chooseBtnStyle = (functionName: Function) =>
+    functionName === mouseStore.createFn ? "btn-dark" : "btn-outline-light";
+
   const style: React.CSSProperties = {
     alignSelf: "center",
   };
@@ -25,8 +32,10 @@ const Tools: React.FC<Props> = (props: Props) => {
   return (
     <div style={style}>
       <Button
-        variant="outline-light"
-        className="btn btn-outline-dark btn-sm m-1"
+        variant={chooseVariant(ShapeController.createLine)}
+        className={`btn ${chooseBtnStyle(
+          ShapeController.createLine
+        )} btn-sm m-1`}
         id="lineButton"
         onClick={() => {
           handleClick(ShapeController.createLine, 2);
@@ -35,8 +44,10 @@ const Tools: React.FC<Props> = (props: Props) => {
         Line (l)
       </Button>
       <Button
-        variant="outline-light"
-        className="btn btn-outline-dark btn-sm m-1"
+        variant={chooseVariant(ShapeController.createRectangle)}
+        className={`btn ${chooseBtnStyle(
+          ShapeController.createRectangle
+        )} btn-sm m-1`}
         id="rectButton"
         onClick={() => {
           handleClick(ShapeController.createRectangle, 2);
@@ -45,8 +56,10 @@ const Tools: React.FC<Props> = (props: Props) => {
         Rectangle (r)
       </Button>
       <Button
-        variant="outline-light"
-        className="btn btn-outline-dark btn-sm m-1"
+        variant={chooseVariant(ShapeController.createTriangle)}
+        className={`btn ${chooseBtnStyle(
+          ShapeController.createTriangle
+        )} btn-sm m-1`}
         id="triangleButton"
         onClick={() => {
           handleClick(ShapeController.createTriangle, 3);
@@ -55,8 +68,10 @@ const Tools: React.FC<Props> = (props: Props) => {
         Triangle (t)
       </Button>
       <Button
-        variant="outline-light"
-        className="btn btn-outline-dark btn-sm m-1"
+        variant={chooseVariant(ShapeController.createCircle)}
+        className={`btn ${chooseBtnStyle(
+          ShapeController.createCircle
+        )} btn-sm m-1`}
         id="circleButton"
         onClick={() => {
           handleClick(ShapeController.createCircle, 2);

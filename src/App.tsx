@@ -3,6 +3,7 @@ import { Header, Canvas, Tools, ItemList } from "./Components";
 import { renderObjects } from "./controllers/canvas.controller";
 import { INITIAL_MOUSE_STATE, mouseReducer } from "./store/mouse";
 import { INITIAL_SHAPE_STATE, shapeReducer } from "./store/shape";
+import { addKeyboardShortcuts } from "./controllers/shape.controller";
 
 function App() {
   const [shapeStore, shapeDispatcher] = useReducer(
@@ -14,6 +15,10 @@ function App() {
     mouseReducer,
     INITIAL_MOUSE_STATE
   );
+
+  useEffect(() => {
+    addKeyboardShortcuts(mouseDispatcher);
+  }, []);
 
   useEffect(() => {
     const canvasRef = document.getElementById("canvas") as HTMLCanvasElement;
@@ -36,17 +41,6 @@ function App() {
     shapeStore.axis,
     shapeStore.onCanvas,
   ]);
-
-  useEffect(() => {
-    document.addEventListener("keydown", (event) => {
-      switch (event.key) {
-        case "Escape":
-          mouseDispatcher({
-            type: "CANCEL_DRAWING",
-          });
-      }
-    });
-  }, [mouseStore.position]);
 
   return (
     <div className="App">
@@ -74,7 +68,7 @@ function App() {
             paddingTop: "8px",
           }}
         >
-          <Tools mouseDispatcher={mouseDispatcher} />
+          <Tools mouseDispatcher={mouseDispatcher} mouseStore={mouseStore} />
           <Canvas
             mouseDispatcher={mouseDispatcher}
             mouseStore={mouseStore}
