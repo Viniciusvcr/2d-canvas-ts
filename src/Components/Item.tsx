@@ -19,6 +19,7 @@ const Item: React.FC<Props> = function (props: Props) {
   return (
     <li
       className={item.obj.selected ? `${style} active` : `${style}`}
+      style={{ cursor: "pointer" }}
       onClick={() => {
         setClicked(!clicked);
       }}
