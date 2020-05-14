@@ -1,20 +1,18 @@
 import React from "react";
 import { Button } from "react-bootstrap";
-import { MouseAction, Mouse } from "../store/mouse";
+import { MouseAction } from "../store/mouse";
 import * as ShapeController from "../controllers/shape.controller";
 
 interface Props {
   mouseDispatcher: React.Dispatch<MouseAction>;
-  mouseStore: Mouse;
 }
 
 const Tools: React.FC<Props> = (props: Props) => {
-  const { mouseDispatcher, mouseStore } = props;
+  const { mouseDispatcher } = props;
 
   function handleClick(createFn: Function, pointsRequired: number) {
     mouseDispatcher({
       type: "INIT_DRAWING",
-      mousePoint: mouseStore.position,
       createFn,
       pointsRequired,
     });

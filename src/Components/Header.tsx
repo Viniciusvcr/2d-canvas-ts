@@ -61,7 +61,6 @@ const Header: React.FC<Props> = (props: Props) => {
               onClick={() => {
                 mouseDispatcher({
                   type: "INIT_TRANSFORMING",
-                  mousePoint: mouseStore.position,
                   createFn: translate,
                   pointsRequired: 2,
                 });
@@ -166,7 +165,6 @@ const Header: React.FC<Props> = (props: Props) => {
               onClick={() => {
                 mouseDispatcher({
                   type: "INIT_TRANSFORMING",
-                  mousePoint: mouseStore.position,
                   createFn: zoom,
                   pointsRequired: 2,
                 });

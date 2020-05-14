@@ -18,7 +18,7 @@ export interface MouseAction {
     | "CANCEL_DRAWING"
     | "INIT_TRANSFORMING"
     | "END_TRANSFORMING";
-  mousePoint: Point;
+  mousePoint?: Point;
   createFn?: Function;
   pointsRequired?: number;
 }
@@ -35,7 +35,7 @@ export function mouseReducer(state: Mouse, action: MouseAction) {
     case "UPDATE_AXIS":
       return {
         ...state,
-        position: action.mousePoint,
+        position: action.mousePoint!,
       };
 
     case "INIT_DRAWING":

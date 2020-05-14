@@ -43,7 +43,6 @@ function App() {
         case "Escape":
           mouseDispatcher({
             type: "CANCEL_DRAWING",
-            mousePoint: mouseStore.position,
           });
       }
     });
@@ -76,7 +75,7 @@ function App() {
             paddingTop: "8px",
           }}
         >
-          <Tools mouseDispatcher={mouseDispatcher} mouseStore={mouseStore} />
+          <Tools mouseDispatcher={mouseDispatcher} />
           <Canvas
             mouseDispatcher={mouseDispatcher}
             mouseStore={mouseStore}

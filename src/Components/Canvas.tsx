@@ -21,7 +21,6 @@ const Canvas: React.FC<CanvasProps> = function (props: CanvasProps) {
           mouseStore.createFn(mouseStore.buffer, shapeDispatcher);
           mouseDispatcher({
             type: "END_DRAWING",
-            mousePoint: mouseStore.position,
           });
         }
 
@@ -34,7 +33,6 @@ const Canvas: React.FC<CanvasProps> = function (props: CanvasProps) {
 
           mouseDispatcher({
             type: "END_TRANSFORMING",
-            mousePoint: mouseStore.position,
           });
         }
       }
