@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { getMousePosition } from "../controllers/canvas.controller";
 import { MouseAction, Mouse } from "../store/mouse";
 import { ShapeAction, ShapeStore } from "../store/shape";
+import { Badge } from "react-bootstrap";
 
 interface CanvasProps {
   mouseDispatcher: React.Dispatch<MouseAction>;
@@ -48,7 +49,14 @@ const Canvas: React.FC<CanvasProps> = function (props: CanvasProps) {
       }}
     >
       <div style={{ textAlign: "center" }}>
-        <div>
+        <Badge variant="dark" style={{ fontSize: "14px" }} id="currentTask">
+          {mouseStore.isDrawing || mouseStore.isTransforming
+            ? `${
+                mouseStore.pointsRequired! - mouseStore.buffer.length
+              } point(s) left to select`
+            : "Select a tool above"}
+        </Badge>
+        <div style={{ paddingTop: "8px" }}>
           <canvas
             id="canvas"
             style={{
