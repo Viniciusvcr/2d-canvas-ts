@@ -53,7 +53,6 @@ function App() {
       <Header
         shapeStore={shapeStore}
         shapeDispatcher={shapeDispatcher}
-        mouseStore={mouseStore}
         mouseDispatcher={mouseDispatcher}
       />
       <div

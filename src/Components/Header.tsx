@@ -13,19 +13,18 @@ import {
   zoomExtend,
   zoom,
 } from "../controllers/shape.controller";
-import { Mouse, MouseAction } from "../store/mouse";
+import { MouseAction } from "../store/mouse";
 import Emoji from "./Emoji";
 
 interface Props {
   shapeStore: ShapeStore;
   shapeDispatcher: React.Dispatch<ShapeAction>;
-  mouseStore: Mouse;
   mouseDispatcher: React.Dispatch<MouseAction>;
 }
 
 const Header: React.FC<Props> = (props: Props) => {
   const [showModal, setShowModal] = useState(false);
-  const { shapeStore, shapeDispatcher, mouseStore, mouseDispatcher } = props;
+  const { shapeStore, shapeDispatcher, mouseDispatcher } = props;
 
   return (
     <div>
