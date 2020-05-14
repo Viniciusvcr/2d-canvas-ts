@@ -142,13 +142,22 @@ function App() {
     canvasRef.width = 1024;
     canvasRef.height = 768;
 
+    if (mouseStore.isDrawing || mouseStore.isTransforming) {
+      canvasRef.style.cursor = "crosshair";
+    } else canvasRef.style.cursor = "default";
     renderObjects(
       Object.values(shapeStore.onCanvas),
       shapeStore.axis,
       mouseStore.buffer,
       canvasRef
     );
-  }, [mouseStore.buffer, shapeStore.axis, shapeStore.onCanvas]);
+  }, [
+    mouseStore.buffer,
+    mouseStore.isDrawing,
+    mouseStore.isTransforming,
+    shapeStore.axis,
+    shapeStore.onCanvas,
+  ]);
 
   useEffect(() => {
     document.addEventListener("keydown", (event) => {
