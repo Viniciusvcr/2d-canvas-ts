@@ -1,5 +1,4 @@
-import { Shape } from "../../models/";
-import { Line } from "../../models/Line";
+import { Shape, Line } from "../models/";
 
 export enum ShapeActionEnum {
   CREATE_SHAPE,
