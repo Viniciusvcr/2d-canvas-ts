@@ -47,3 +47,63 @@ export const INITIAL_SHAPE_STATE: ShapeStore = {
     new Line({ x: 15, y: 262 }, { x: 17, y: 266 }), // Y
   ],
 };
+
+export function shapeReducer(state: ShapeStore, action: ShapeAction) {
+  switch (action.type) {
+    case ShapeActionEnum.CREATE_SHAPE:
+      return {
+        ...state,
+        onCanvas: {
+          ...state.onCanvas,
+          [action.id!]: { obj: action.shapeBuffer!, selected: false },
+        },
+      };
+
+    case ShapeActionEnum.UPDATE_SHAPES:
+      return {
+        ...state,
+        onCanvas: { ...state.onCanvas },
+      };
+
+    case ShapeActionEnum.DELETE_SHAPE:
+      delete state.onCanvas[action.id!];
+
+      return {
+        ...state,
+        onCanvas: { ...state.onCanvas },
+      };
+
+    case ShapeActionEnum.SELECT_SHAPE:
+      const toSelect = state.onCanvas[action.id!];
+      toSelect.selected = true;
+
+      return {
+        ...state,
+        onCanvas: { ...state.onCanvas },
+      };
+
+    case ShapeActionEnum.UNSELECT_SHAPE:
+      const toUnselect = state.onCanvas[action.id!];
+      toUnselect.selected = false;
+
+      return {
+        ...state,
+        onCanvas: { ...state.onCanvas },
+      };
+
+    case ShapeActionEnum.CLEAR_CANVAS:
+      return {
+        ...state,
+        onCanvas: {},
+      };
+
+    case ShapeActionEnum.UPDATE_CANVAS:
+      return {
+        ...state,
+        onCanvas: action.previousCanvas!,
+      };
+
+    default:
+      return state;
+  }
+}

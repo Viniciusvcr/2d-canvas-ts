@@ -1,139 +1,17 @@
 import React, { useReducer, useEffect } from "react";
 import { Header, Canvas, Tools, ItemList } from "./Components";
 import { renderObjects } from "./controllers/canvas.controller";
-import { Mouse, MouseAction, INITIAL_MOUSE_STATE } from "./store/mouse";
-import {
-  ShapeStore,
-  ShapeAction,
-  INITIAL_SHAPE_STATE,
-  ShapeActionEnum,
-} from "./store/shape";
+import { INITIAL_MOUSE_STATE, mouseReducer } from "./store/mouse";
+import { INITIAL_SHAPE_STATE, shapeReducer } from "./store/shape";
 
 function App() {
   const [shapeStore, shapeDispatcher] = useReducer(
-    (state: ShapeStore, action: ShapeAction) => {
-      switch (action.type) {
-        case ShapeActionEnum.CREATE_SHAPE:
-          return {
-            ...state,
-            onCanvas: {
-              ...state.onCanvas,
-              [action.id!]: { obj: action.shapeBuffer!, selected: false },
-            },
-          };
-
-        case ShapeActionEnum.UPDATE_SHAPES:
-          return {
-            ...state,
-            onCanvas: { ...state.onCanvas },
-          };
-
-        case ShapeActionEnum.DELETE_SHAPE:
-          delete state.onCanvas[action.id!];
-
-          return {
-            ...state,
-            onCanvas: { ...state.onCanvas },
-          };
-
-        case ShapeActionEnum.SELECT_SHAPE:
-          const toSelect = state.onCanvas[action.id!];
-          toSelect.selected = true;
-
-          return {
-            ...state,
-            onCanvas: { ...state.onCanvas },
-          };
-
-        case ShapeActionEnum.UNSELECT_SHAPE:
-          const toUnselect = state.onCanvas[action.id!];
-          toUnselect.selected = false;
-
-          return {
-            ...state,
-            onCanvas: { ...state.onCanvas },
-          };
-
-        case ShapeActionEnum.CLEAR_CANVAS:
-          return {
-            ...state,
-            onCanvas: {},
-          };
-
-        case ShapeActionEnum.UPDATE_CANVAS:
-          return {
-            ...state,
-            onCanvas: action.previousCanvas!,
-          };
-
-        default:
-          return state;
-      }
-    },
+    shapeReducer,
     INITIAL_SHAPE_STATE
   );
 
   const [mouseStore, mouseDispatcher] = useReducer(
-    (state: Mouse, action: MouseAction) => {
-      switch (action.type) {
-        case "UPDATE_AXIS":
-          return {
-            ...state,
-            position: action.mousePoint,
-          };
-
-        case "INIT_DRAWING":
-          return {
-            ...state,
-            isDrawing: true,
-            pointsRequired: action.pointsRequired,
-            createFn: action.createFn,
-          };
-
-        case "DRAWING":
-          if (state.isDrawing || state.isTransforming) {
-            return {
-              ...state,
-              buffer: [...state.buffer, state.position],
-            };
-          } else return state;
-
-        case "END_DRAWING":
-          return {
-            ...state,
-            isDrawing: false,
-            buffer: [],
-            createFn: undefined,
-          };
-
-        case "CANCEL_DRAWING":
-          return {
-            ...state,
-            isDrawing: false,
-            buffer: [],
-            createFn: undefined,
-          };
-
-        case "INIT_TRANSFORMING":
-          return {
-            ...state,
-            isTransforming: true,
-            pointsRequired: action.pointsRequired,
-            createFn: action.createFn,
-          };
-
-        case "END_TRANSFORMING":
-          return {
-            ...state,
-            isTransforming: false,
-            buffer: [],
-            createFn: undefined,
-          };
-
-        default:
-          return state;
-      }
-    },
+    mouseReducer,
     INITIAL_MOUSE_STATE
   );
 
