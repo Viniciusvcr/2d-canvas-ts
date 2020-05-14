@@ -16,6 +16,7 @@ const Emoji: React.FC<Props> = function (props: Props) {
       onClick={() => {
         props.clickFn!();
       }}
+      style={{ cursor: "pointer" }}
     >
       {props.symbol}
     </span>
