@@ -2,9 +2,30 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A simple HTML Canvas App based on a Computer Graphics' college project. Developed to learn React with Typescript.
+A simple HTML Canvas App based on a college Computer Graphics project. Developed to learn React with Typescript.
 
-[Original project can be founded here](https://github.com/Viniciusvcr/2d-canvas-js)
+[Original project can be founded here.](https://github.com/Viniciusvcr/2d-canvas-js)
+
+## React concepts used and learned
+
+- React Functional Components
+- Hooks
+  - useState
+  - useReducer
+  - useEffect
+
+## How to interact with the Canvas
+
+- First, select a tool in the Tool Menu above the Canvas
+- Click on the Canvas to select points to create the shapes
+  - Each tool has its own required number of points
+  - The number of points left to select are shown below the Tool Menu
+- You can select any shape on the Canvas by clicking on the Object List
+  - Selected shapes turn blue
+  - The corresponding shape changes color when your mouse hover on the item in the Object List
+  - Clicking the "X" removes the shape from the Canvas
+- The header contains common Computer Graphic functions to interact with the shapes on canvas
+  - Translation, Scale and Rotation require selected objects to work
 
 ## Available Scripts
 
