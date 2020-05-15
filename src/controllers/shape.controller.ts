@@ -49,6 +49,14 @@ export function addKeyboardShortcuts(
       case "c":
         dispatch(createCircle, 2);
         break;
+
+      case "z":
+        if (event.ctrlKey) undoCommand();
+        break;
+
+      case "Z":
+        redoCommand();
+        break;
     }
   });
 }
